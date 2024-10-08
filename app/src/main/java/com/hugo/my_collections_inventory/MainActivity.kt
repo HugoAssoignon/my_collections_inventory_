@@ -84,6 +84,18 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             ) {
                 Text("Se connecter")
             }
+            Button(
+                onClick = {
+                    Toast.makeText(applicationContext, "Creation nouvel utilisateur", Toast.LENGTH_SHORT).show()
+                    // performLogin("http://localhost:8080/login")
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red, contentColor = Color.White),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text("Création nouvel utilisateur")
+            }
         }
     }
 }
