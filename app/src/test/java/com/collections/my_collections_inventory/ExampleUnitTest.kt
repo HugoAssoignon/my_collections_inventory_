@@ -1,4 +1,4 @@
-package com.hugo.my_collections_inventory
+package com.collections.my_collections_inventory
 
 import org.junit.Test
 

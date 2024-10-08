@@ -1,4 +1,4 @@
-package com.hugo.my_collections_inventory
+package com.collections.my_collections_inventory
 
 import android.os.Bundle
 import android.widget.Toast
@@ -34,7 +34,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hugo.my_collections_inventory.ui.theme.My_collections_inventoryTheme
+import com.collections.my_collections_inventory.ui.theme.My_collections_inventoryTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

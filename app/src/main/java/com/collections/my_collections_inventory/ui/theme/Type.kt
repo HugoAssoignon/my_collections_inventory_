@@ -1,4 +1,4 @@
-package com.hugo.my_collections_inventory.ui.theme
+package com.collections.my_collections_inventory.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

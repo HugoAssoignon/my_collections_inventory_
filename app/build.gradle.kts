@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.hugo.my_collections_inventory"
+    namespace = "com.collections.my_collections_inventory"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.hugo.my_collections_inventory"
+        applicationId = "com.collections.my_collections_inventory"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
