@@ -50,6 +50,9 @@ android {
 }
 
 dependencies {
+    //noinspection UseTomlInstead
+    implementation ("androidx.compose.material:material-icons-extended:1.7.3")
+    implementation ("androidx.navigation:navigation-compose:2.8.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
