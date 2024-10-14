@@ -1,5 +1,7 @@
 package com.collections.my_collections_inventory.screen
 
+import EmailBox
+import PasswordBox
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -8,13 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
+
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
@@ -36,9 +34,9 @@ fun LoginScreen() {
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold
             )
-            Email()
+            EmailBox()
             Spacer(modifier = Modifier.height(16.dp))
-            Passwd()
+            PasswordBox()
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {
@@ -66,40 +64,4 @@ fun LoginScreen() {
             }
         }
     }
-}
-
-@Composable
-fun Email() {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
-    OutlinedTextField(
-        value = text,
-        leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon") },
-        onValueChange = {
-            text = it
-        },
-        label = { Text(text = "Email address") },
-        placeholder = { Text(text = "Enter your e-mail") },
-        modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Composable
-fun Passwd() {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
-    OutlinedTextField(
-        value = text,
-        leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "passwordIcon") },
-        onValueChange = {
-            text = it
-        },
-        label = { Text(text = "Password") },
-        placeholder = { Text(text = "Enter your password") },
-        modifier = Modifier.fillMaxWidth()
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen()
 }
