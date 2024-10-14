@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 fun MangaScreen() {
     Scaffold(
         content = { padding ->
-            Column(modifier = Modifier.padding(padding))
-            { Text(text = "écran manga") }
+            Column(modifier = Modifier.padding(padding)) {
+                DescriptionScreen(idManga = 1)
+            }
         }
     )
-
 }

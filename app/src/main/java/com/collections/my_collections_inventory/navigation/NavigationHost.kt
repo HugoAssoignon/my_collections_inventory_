@@ -41,7 +41,7 @@ fun NavigationHost() {
             composable("carte") { }
             composable("home") { HomeScreen(navController) }
             composable("collection") { CollectionScreen(navController) }
-            composable("login"){ LoginScreen() }
+            composable("login") { LoginScreen() }
         }
     }
 }
