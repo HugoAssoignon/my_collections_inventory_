@@ -3,4 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">172.20.10.3</domain>
     </domain-config>
+    <domain-config>
+        <domain includeSubdomains="true">cdn.myanimelist.net</domain>
+    </domain-config>
 </network-security-config>
