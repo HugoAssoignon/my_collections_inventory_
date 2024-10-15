@@ -13,13 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 
 @Composable
-fun EmailBox() {
+fun EmailBox(onEmailChange: (String) -> Unit) {
     var text by remember { mutableStateOf(TextFieldValue("")) }
     OutlinedTextField(
         value = text,
         leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon") },
         onValueChange = {
             text = it
+            onEmailChange(it.text)
         },
         label = { Text(text = "Email address") },
         placeholder = { Text(text = "Enter your e-mail") },

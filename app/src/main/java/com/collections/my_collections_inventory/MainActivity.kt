@@ -1,6 +1,5 @@
 package com.collections.my_collections_inventory
 
-import BottomNavigationBar
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

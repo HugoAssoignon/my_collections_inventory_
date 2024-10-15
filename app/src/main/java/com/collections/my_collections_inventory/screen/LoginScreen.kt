@@ -12,12 +12,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import kotlinx.coroutines.launch
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
+import com.collections.my_collections_inventory.services.UserApiServices
+
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var user by remember { mutableStateOf<String?>(null) }
+
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
         Column(
@@ -34,34 +43,66 @@ fun LoginScreen() {
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold
             )
-            EmailBox()
+            EmailBox(onEmailChange = { email = it })
             Spacer(modifier = Modifier.height(16.dp))
-            PasswordBox()
+            PasswordBox(onPasswordChange = { password = it })
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {
                     Toast.makeText(context, "Tentative de connexion", Toast.LENGTH_SHORT).show()
-                    // performLogin("http://localhost:8080/login")
+                    val userApiService = UserApiServices();
+                    coroutineScope.launch {
+                        try {
+
+                            user = userApiService.retrieveUserByEmailAndPassword(email, password)
+                            if (user != null) {
+                                Toast.makeText(context, "Connexion réussie", Toast.LENGTH_SHORT)
+                                    .show()
+                                navController.navigate("home")
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Utilisateur introuvable. Réessayez.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                navController.navigate("login")
+                            }
+                        } catch (e: Exception) {
+                            Toast.makeText(
+                                context,
+                                "Erreur lors de la connexion: ${e.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Blue, contentColor = Color.White),
+
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Blue,
+                    contentColor = Color.White
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
                 Text("Se connecter")
             }
-            Button(
+            /*Button(
                 onClick = {
-                    Toast.makeText(context, "Création nouvel utilisateur", Toast.LENGTH_SHORT).show()
-                    // performLogin("http://localhost:8080/login")
+                    Toast.makeText(context, "Création nouvel utilisateur", Toast.LENGTH_SHORT)
+                        .show()
+                    //
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Red, contentColor = Color.White),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Red,
+                    contentColor = Color.White
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
                 Text("Création nouvel utilisateur")
-            }
+            }*/
         }
     }
 }

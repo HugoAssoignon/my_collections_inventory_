@@ -32,7 +32,7 @@ fun NavigationHost() {
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = "home",
+            startDestination = "login",
             modifier = Modifier.padding(paddingValues)
         ) {
             composable("menu") { MenuScreen(navController) }
@@ -41,7 +41,7 @@ fun NavigationHost() {
             composable("carte") { }
             composable("home") { HomeScreen(navController) }
             composable("collection") { CollectionScreen(navController) }
-            composable("login"){ LoginScreen() }
+            composable("login") { LoginScreen(navController) }
         }
     }
 }

@@ -13,16 +13,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 
 @Composable
-fun PasswordBox() {
+fun PasswordBox(onPasswordChange: (String) -> Unit) {
     var text by remember { mutableStateOf(TextFieldValue("")) }
     OutlinedTextField(
         value = text,
-        leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "passwordIcon") },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Lock,
+                contentDescription = "passwordIcon"
+            )
+        },
         onValueChange = {
             text = it
+            onPasswordChange(it.text)
         },
         label = { Text(text = "Password") },
         placeholder = { Text(text = "Enter your password") },
         modifier = Modifier.fillMaxWidth()
+
+
     )
 }
