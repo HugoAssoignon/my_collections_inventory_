@@ -16,7 +16,7 @@ import java.io.IOException
 
 
 class UserApiServices {
-    private val apiUrl: String = "http://192.168.1.35:8080/login/add/"
+    private val apiUrl: String = "http://172.20.10.3:8080/login/add/"
 
     suspend fun retrieveUserByEmailAndPassword(email: String, password: String): String? {
         if (email.isBlank() || password.isBlank()) {
@@ -37,7 +37,7 @@ class UserApiServices {
 
         // Construire la requête POST avec le corps JSON
         val request = Request.Builder()
-            .url("http://192.168.1.35:8080/login/add/")  // Remplacer par l'adresse correcte
+            .url("http://172.20.10.3:8080/login/add")  // Remplacer par l'adresse correcte
             .post(requestBody)
             .build()
 
