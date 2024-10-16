@@ -4,7 +4,6 @@ package com.collections.my_collections_inventory.services
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.FormBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -16,30 +15,17 @@ import java.io.IOException
 
 
 class UserApiServices {
-    private val apiUrl: String = "http://192.168.1.35:8080/login/add/"
+    private var apiUrl: String = "http://192.168.208.125:8080/login"
 
-    suspend fun retrieveUserByEmailAndPassword(email: String, password: String): String? {
-        if (email.isBlank() || password.isBlank()) {
-            Log.i("ApiCalls", "Email ou mot de passe vide ou nul.")
+    suspend fun retrieveUserByEmailAndPassword(type: String, username: String, password: String): String? {
+        if (username.isBlank() || password.isBlank()) {
+            Log.i("ApiCalls", "Email or password empty or null.")
             return null
         }
 
-
         val client = OkHttpClient()
 
-        // Crée un objet JSON pour envoyer les données
-        val jsonObject = JSONObject()
-        jsonObject.put("email", email)
-        jsonObject.put("passwd", password)
-
-        val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
-        val requestBody: RequestBody = jsonObject.toString().toRequestBody(mediaType)
-
-        // Construire la requête POST avec le corps JSON
-        val request = Request.Builder()
-            .url("http://192.168.1.35:8080/login/add/")  // Remplacer par l'adresse correcte
-            .post(requestBody)
-            .build()
+        val request = getRequest(type, username, password)
 
         return withContext(Dispatchers.IO) {
             try {
@@ -59,12 +45,29 @@ class UserApiServices {
             }
         }
     }
+
+    private fun getRequest(type: String, username: String, password: String): Request {
+        val jsonObject = JSONObject()
+        jsonObject.put("username", username)
+        jsonObject.put("password", password)
+
+        val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
+        val requestBody: RequestBody = jsonObject.toString().toRequestBody(mediaType)
+        if(type=="add"){
+            apiUrl += "/add";
+        }
+        val request = Request.Builder()
+            .url(apiUrl)
+            .post(requestBody)
+            .build()
+        return request
+    }
 }
 
 
 data class User(
-    val email: String,
-    val passwd: String
+    val username: String,
+    val password: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -72,8 +75,8 @@ data class User(
 
         other as User
 
-        if (email != other.email) return false
-        if (passwd != other.passwd) return false
+        if (username != other.username) return false
+        if (password != other.password) return false
 
 
         return true
