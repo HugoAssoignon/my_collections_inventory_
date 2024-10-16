@@ -1,6 +1,8 @@
 package com.collections.my_collections_inventory.services
 
 
+
+
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,8 +16,11 @@ import org.json.JSONObject
 import java.io.IOException
 
 
+
+
 class UserApiServices {
     private var apiUrl: String = "http://192.168.208.125:8080/login"
+
 
     suspend fun retrieveUserByEmailAndPassword(type: String, username: String, password: String): String? {
         if (username.isBlank() || password.isBlank()) {
@@ -23,13 +28,17 @@ class UserApiServices {
             return null
         }
 
+
         val client = OkHttpClient()
 
+
         val request = getRequest(type, username, password)
+
 
         return withContext(Dispatchers.IO) {
             try {
                 val response: Response = client.newCall(request).execute()
+
 
                 if (response.isSuccessful) {
                     response.body?.string().also {
@@ -46,10 +55,12 @@ class UserApiServices {
         }
     }
 
+
     private fun getRequest(type: String, username: String, password: String): Request {
         val jsonObject = JSONObject()
         jsonObject.put("username", username)
         jsonObject.put("password", password)
+
 
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody: RequestBody = jsonObject.toString().toRequestBody(mediaType)
@@ -63,27 +74,3 @@ class UserApiServices {
         return request
     }
 }
-
-
-data class User(
-    val username: String,
-    val password: String
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as User
-
-        if (username != other.username) return false
-        if (password != other.password) return false
-
-
-        return true
-    }
-
-
-
-}
-
-
