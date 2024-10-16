@@ -1,6 +1,5 @@
 package com.collections.my_collections_inventory.navigation
 
-import BottomNavigationBar
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -18,6 +17,7 @@ import com.collections.my_collections_inventory.screen.HomeScreen
 import com.collections.my_collections_inventory.screen.LoginScreen
 import com.collections.my_collections_inventory.screen.MangaScreen
 import com.collections.my_collections_inventory.screen.MenuScreen
+import com.collections.my_collections_inventory.widget.BottomNavigationBar
 
 @Composable
 fun NavigationHost() {
