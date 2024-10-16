@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -38,6 +39,7 @@ fun CreatedSearchBar(labelSearch: String) {
             .background(Color.White),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // search button
         IconButton(onClick = { /* Action de recherche ici */ }) {
             Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
         }
@@ -52,6 +54,8 @@ fun CreatedSearchBar(labelSearch: String) {
                 innerTextField()
             }
         )
+
+        // for close or clear
         if (text.text.isNotEmpty()) {
             IconButton(onClick = { text = TextFieldValue("") }) {
                 Icon(imageVector = Icons.Default.Close, contentDescription = "Clear")
