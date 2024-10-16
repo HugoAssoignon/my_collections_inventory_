@@ -53,7 +53,7 @@ dependencies {
     //noinspection UseTomlInstead
     implementation ("androidx.compose.material:material-icons-extended:1.7.3")
     implementation ("androidx.navigation:navigation-compose:2.8.2")
-
+    implementation("io.coil-kt:coil-compose:2.2.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -74,10 +74,10 @@ dependencies {
     androidTestImplementation(composeBom)
 
     implementation("androidx.compose.material3:material3") // Material Design
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.12.0")
 
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.activity:activity-compose:1.9.2")
 }

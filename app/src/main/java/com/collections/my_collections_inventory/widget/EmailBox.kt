@@ -1,3 +1,5 @@
+package com.collections.my_collections_inventory.widget
+
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
