@@ -1,7 +1,7 @@
 package com.collections.my_collections_inventory.screen
 
-import EmailBox
 import PasswordBox
+import UsernameBox
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -56,7 +56,7 @@ fun CreationNewUserScreen(navController: NavController) {
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold
             )
-            EmailBox(onEmailChange = { username = it })
+            UsernameBox(onUsernameChange = { username = it })
             Spacer(modifier = Modifier.height(16.dp))
             PasswordBox(onPasswordChange = { password = it })
             Spacer(modifier = Modifier.height(24.dp))
@@ -67,9 +67,9 @@ fun CreationNewUserScreen(navController: NavController) {
                     val userApiService = UserApiServices();
                     coroutineScope.launch {
                         try {
-                            user = userApiService.retrieveUserByEmailAndPassword(type,username, password)
+                            user = userApiService.retrieveUserByUsernameAndPassword(type,username, password)
                             if (user != null) {
-                                Toast.makeText(context, "creation user sucessful successful", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, "creation user successful", Toast.LENGTH_SHORT)
                                     .show()
                                 navController.navigate("home")
                             } else {

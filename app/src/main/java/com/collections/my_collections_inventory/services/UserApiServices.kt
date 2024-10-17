@@ -1,8 +1,5 @@
 package com.collections.my_collections_inventory.services
 
-
-
-
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,15 +13,13 @@ import org.json.JSONObject
 import java.io.IOException
 
 
-
-
 class UserApiServices {
     private var apiUrl: String = "http://192.168.208.125:8080/login"
 
 
-    suspend fun retrieveUserByEmailAndPassword(type: String, username: String, password: String): String? {
+    suspend fun retrieveUserByUsernameAndPassword(type: String, username: String, password: String): String? {
         if (username.isBlank() || password.isBlank()) {
-            Log.i("ApiCalls", "Email or password empty or null.")
+            Log.d("ApiCalls", "Username or password empty or null.")
             return null
         }
 
@@ -42,14 +37,14 @@ class UserApiServices {
 
                 if (response.isSuccessful) {
                     response.body?.string().also {
-                        Log.i("ApiCalls", "API response: $it")
+                        Log.d("ApiCalls", "API response successful: $it")
                     }
                 } else {
-                    Log.i("ApiCalls", "Error calling API, code: ${response.code}")
+                    Log.d("ApiCalls", "Error calling API, code: ${response.code}")
                     null
                 }
             } catch (e: IOException) {
-                Log.i("ApiCalls", "Error when calling API", e)
+                Log.e("ApiCalls", "Error when calling API : ${e.message}", e)
                 null
             }
         }
