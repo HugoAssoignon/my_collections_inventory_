@@ -14,7 +14,6 @@ import androidx.navigation.compose.rememberNavController
 import com.collections.my_collections_inventory.screen.CollectionScreen
 import com.collections.my_collections_inventory.screen.CreationNewUserScreen
 import com.collections.my_collections_inventory.screen.DescriptionScreen
-import com.collections.my_collections_inventory.screen.DescriptionScreen
 import com.collections.my_collections_inventory.screen.HomeScreen
 import com.collections.my_collections_inventory.screen.LoginScreen
 import com.collections.my_collections_inventory.screen.MangaScreen
@@ -46,7 +45,7 @@ fun NavigationHost() {
             composable("carte") { }
             composable("home") { HomeScreen(navController) }
             composable("collection") { CollectionScreen(navController) }
-            composable("login"){ LoginScreen() }
+            composable("login") { LoginScreen(navController) }
             composable("description_screen/{idManga}") { backStackEntry ->
                 val idManga = backStackEntry.arguments?.getString("idManga")?.toInt() ?: 0
                 DescriptionScreen(idManga)
