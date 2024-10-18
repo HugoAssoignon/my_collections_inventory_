@@ -9,11 +9,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import java.io.IOException
 
-data class MangaDetail(val id: Int, val title: String, val description: String)
-
 interface MangaApiCalls {
     @GET("{id}")
-    suspend fun retrieveMangaById(@Path("id") idManga: Int): MangaDetail
+    suspend fun retrieveMangaById(@Path("id") idManga: Int): MangaDTO
 
     @GET("top-ten")
     suspend fun getTopTenManga(): List<MangaDTO>
@@ -42,7 +40,7 @@ class MangaApiService {
             .create(MangaApiCalls::class.java)
     }
 
-    suspend fun retrieveMangaById(idManga: Int): MangaDetail? {
+    suspend fun retrieveMangaById(idManga: Int): MangaDTO? {
         return withContext(Dispatchers.IO) {
             try {
                 api.retrieveMangaById(idManga)
