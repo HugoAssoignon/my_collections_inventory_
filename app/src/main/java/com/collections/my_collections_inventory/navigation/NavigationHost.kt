@@ -50,6 +50,11 @@ fun NavigationHost() {
                 val idManga = backStackEntry.arguments?.getString("idManga")?.toInt() ?: 0
                 DescriptionScreen(idManga)
             }
+            composable("login") { LoginScreen(navController) }
+            composable("description_screen/{idManga}") { backStackEntry ->
+                val idManga = backStackEntry.arguments?.getString("idManga")?.toInt() ?: 0
+                DescriptionScreen(idManga)
+            }
             composable("newUser") { CreationNewUserScreen(navController) }
             }
         }
