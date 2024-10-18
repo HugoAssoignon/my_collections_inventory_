@@ -23,12 +23,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.collections.my_collections_inventory.widget.CreatedSearchBar
 import com.collections.my_collections_inventory.widget.DisplayBox
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     val mangaApiService = remember { MangaApiService() }
     var mangas by remember { mutableStateOf<List<MangaDTO>>(emptyList()) }
     val coroutineScope = rememberCoroutineScope()
@@ -65,7 +66,7 @@ fun HomeScreen() {
                     ) {
                         items(mangas) { manga ->
                             DisplayBox(
-                                manga.id, manga.title, manga.imageUrl
+                                manga.id, manga.title, manga.imageUrl, navController
                             )
                         }
                     }
@@ -81,7 +82,7 @@ fun HomeScreen() {
                     ) {
                         items(mangas) { manga ->
                             DisplayBox(
-                                manga.id, manga.title, manga.imageUrl
+                                manga.id, manga.title, manga.imageUrl, navController
                             )
                         }
                     }

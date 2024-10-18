@@ -53,7 +53,7 @@ fun CollectionScreen(navController: NavController) {
                 ) {
                     for ((title, imageUrl) in pairOfMangas) {
                         DisplayBox(
-                            1, title, imageUrl
+                            1, title, imageUrl, navController
                         )
                     }
                 }

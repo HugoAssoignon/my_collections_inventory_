@@ -2,6 +2,7 @@ package com.collections.my_collections_inventory.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,16 +16,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 
+
 @Composable
-fun DisplayBox(idManga: Int, mangaName: String, mangaPic: String) {
+fun DisplayBox(idManga: Int, mangaName: String, mangaPic: String, navController: NavController) {
     Box(
         modifier = Modifier
             .height(155.dp)
             .width(178.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xFFD4F4DD)),
+            .background(Color(0xFFD4F4DD))
+            .clickable { navController.navigate("description_screen/$idManga") },
         contentAlignment = Alignment.BottomCenter
     ) {
         Image(
