@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.collections.my_collections_inventory.screen.CollectionScreen
+import com.collections.my_collections_inventory.screen.DescriptionScreen
 import com.collections.my_collections_inventory.screen.HomeScreen
 import com.collections.my_collections_inventory.screen.LoginScreen
 import com.collections.my_collections_inventory.screen.MangaScreen
@@ -36,12 +37,16 @@ fun NavigationHost() {
             modifier = Modifier.padding(paddingValues)
         ) {
             composable("menu") { MenuScreen(navController) }
-            composable("manga") { MangaScreen() }
+            composable("manga") { MangaScreen(navController) }
             composable("anime") { }
             composable("carte") { }
-            composable("home") { HomeScreen() }
+            composable("home") { HomeScreen(navController) }
             composable("collection") { CollectionScreen(navController) }
             composable("login"){ LoginScreen() }
+            composable("description_screen/{idManga}") { backStackEntry ->
+                val idManga = backStackEntry.arguments?.getString("idManga")?.toInt() ?: 0
+                DescriptionScreen(idManga)
+            }
         }
     }
 }
