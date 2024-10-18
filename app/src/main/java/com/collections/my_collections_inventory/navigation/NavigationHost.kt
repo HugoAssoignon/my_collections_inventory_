@@ -23,7 +23,7 @@ import com.collections.my_collections_inventory.widget.BottomNavigationBar
 @Composable
 fun NavigationHost() {
     val navController = rememberNavController()
-    var navigationSelectedItem by remember { mutableStateOf(0) }
+    var navigationSelectedItem by remember { mutableStateOf(1) }
     val noBottomNavDestinations = listOf("login")
     Scaffold(
         bottomBar = {
