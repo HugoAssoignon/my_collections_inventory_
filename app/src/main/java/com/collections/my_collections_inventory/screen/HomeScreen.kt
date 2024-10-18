@@ -54,28 +54,12 @@ fun HomeScreen(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(32.dp)
             ) {
-                Text("Tous les Univers", color = Color.White)
-                CreatedSearchBar("Rechercher un manga")
+                Text("All Universe", color = Color.White)
+                CreatedSearchBar("Search manga")
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text("Top 10 des mangas", color = Color.White)
-                    LazyRow(
-                        modifier = Modifier.wrapContentHeight(),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    ) {
-                        items(mangas) { manga ->
-                            DisplayBox(
-                                manga.id, manga.title, manga.imageUrl, navController
-                            )
-                        }
-                    }
-                }
-                //Créer un composant par la suite pour afficher les mangas
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Text("mangas", color = Color.White)
+                    Text("Manga top 10", color = Color.White)
                     LazyRow(
                         modifier = Modifier.wrapContentHeight(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),

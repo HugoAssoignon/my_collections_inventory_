@@ -66,7 +66,7 @@ fun DescriptionScreen(idManga: Int) {
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
                     .width(380.dp)
-                    .height(700.dp)
+                    .height(800.dp)
                     .background(Color(0xFF334195))
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -104,7 +104,7 @@ fun DescriptionScreen(idManga: Int) {
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))
                         .width(300.dp)
-                        .height(350.dp)
+                        .height(320.dp)
                         .background(Color(0xFFD8D4F4))
                         .padding(16.dp),
                 ) {
@@ -120,8 +120,8 @@ fun DescriptionScreen(idManga: Int) {
                     onClick = { },
                     colors = ButtonDefaults.buttonColors(Color(0xFFD4F4DD)),
                     modifier = Modifier
-                        .width(300.dp)
-                        .height(100.dp)
+                        .width(200.dp)
+                        .height(35.dp)
                 ) {
                     Text("Add to my collection", color = Color.Black)
                 }
