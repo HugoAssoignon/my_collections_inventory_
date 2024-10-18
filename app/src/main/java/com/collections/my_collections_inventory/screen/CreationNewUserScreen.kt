@@ -3,23 +3,36 @@ package com.collections.my_collections_inventory.screen
 import PasswordBox
 import UsernameBox
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.collections.my_collections_inventory.services.UserApiServices
-
+import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun CreationNewUserScreen(navController: NavController) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -38,7 +51,7 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Login",
+                text = "New Account Creation",
                 modifier = Modifier.padding(20.dp),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold
@@ -49,20 +62,20 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {
-                    val type = "login"
-                    Toast.makeText(context, "Attempting to login", Toast.LENGTH_SHORT).show()
+                    val type = "add"
+                    Toast.makeText(context, "Attempting to create user", Toast.LENGTH_SHORT).show()
                     val userApiService = UserApiServices();
                     coroutineScope.launch {
                         try {
                             user = userApiService.retrieveUserByUsernameAndPassword(type,username, password)
                             if (user != null) {
-                                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, "creation user successful", Toast.LENGTH_SHORT)
                                     .show()
                                 navController.navigate("home")
                             } else {
                                 Toast.makeText(
                                     context,
-                                    "User not found. Try again.",
+                                    "Creation new user failed. Try again.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 navController.navigate("login")
@@ -85,22 +98,9 @@ fun LoginScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
-                Text("Login")
+                Text("Create user")
             }
-            Button(
-                onClick = {
-                    navController.navigate("newUser")
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Red,
-                    contentColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            ) {
-                Text("Create New User")
-            }
+
         }
     }
 }

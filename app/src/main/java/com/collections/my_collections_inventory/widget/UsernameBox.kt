@@ -1,6 +1,6 @@
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -13,16 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 
 @Composable
-fun EmailBox() {
+fun UsernameBox(onUsernameChange: (String) -> Unit) {
     var text by remember { mutableStateOf(TextFieldValue("")) }
     OutlinedTextField(
         value = text,
-        leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon") },
+        leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription = "userIcon") },
         onValueChange = {
             text = it
+            onUsernameChange(it.text)
         },
-        label = { Text(text = "Email address") },
-        placeholder = { Text(text = "Enter your e-mail") },
+        label = { Text(text = "Username") },
+        placeholder = { Text(text = "Enter your username :") },
         modifier = Modifier.fillMaxWidth()
     )
 }

@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.collections.my_collections_inventory.screen.CollectionScreen
+import com.collections.my_collections_inventory.screen.CreationNewUserScreen
 import com.collections.my_collections_inventory.screen.HomeScreen
 import com.collections.my_collections_inventory.screen.LoginScreen
 import com.collections.my_collections_inventory.screen.MangaScreen
@@ -32,7 +33,7 @@ fun NavigationHost() {
     ) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = "home",
+            startDestination = "login",
             modifier = Modifier.padding(paddingValues)
         ) {
             composable("menu") { MenuScreen(navController) }
@@ -41,7 +42,8 @@ fun NavigationHost() {
             composable("carte") { }
             composable("home") { HomeScreen(navController) }
             composable("collection") { CollectionScreen(navController) }
-            composable("login"){ LoginScreen() }
+            composable("login") { LoginScreen(navController) }
+            composable("newUser") { CreationNewUserScreen(navController) }
         }
     }
 }
