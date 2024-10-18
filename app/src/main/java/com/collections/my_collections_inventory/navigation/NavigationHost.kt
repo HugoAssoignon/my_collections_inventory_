@@ -24,11 +24,13 @@ import com.collections.my_collections_inventory.widget.BottomNavigationBar
 fun NavigationHost() {
     val navController = rememberNavController()
     var navigationSelectedItem by remember { mutableStateOf(0) }
-
+    val noBottomNavDestinations = listOf("login")
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController, navigationSelectedItem) { index ->
-                navigationSelectedItem = index
+            if (navController.currentBackStackEntry?.destination?.route !in noBottomNavDestinations) {
+                BottomNavigationBar(navController, navigationSelectedItem) { index ->
+                    navigationSelectedItem = index
+                }
             }
         }
     ) { paddingValues ->
