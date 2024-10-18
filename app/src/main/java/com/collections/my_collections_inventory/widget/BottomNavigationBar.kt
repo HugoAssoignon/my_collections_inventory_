@@ -1,3 +1,4 @@
+package com.collections.my_collections_inventory.widget
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
