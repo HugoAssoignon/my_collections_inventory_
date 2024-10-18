@@ -11,19 +11,22 @@ import java.io.IOException
 
 data class MangaDetail(val id: Int, val title: String, val description: String)
 
-interface MangaApi {
+interface MangaApiCalls {
     @GET("{id}")
     suspend fun retrieveMangaById(@Path("id") idManga: Int): MangaDetail
 
     @GET("top-ten")
     suspend fun getTopTenManga(): List<MangaDTO>
+
+    @GET("all")
+    suspend fun getAllManga(): List<MangaDTO>
 }
 
 class MangaApiService {
     private val dataIp = DataIp()
     private val apiUrl: String = "http://${dataIp.getIp()}/manga/"
 
-    private val api: MangaApi by lazy {
+    private val api: MangaApiCalls by lazy {
         val logging = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
@@ -36,7 +39,7 @@ class MangaApiService {
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(MangaApi::class.java)
+            .create(MangaApiCalls::class.java)
     }
 
     suspend fun retrieveMangaById(idManga: Int): MangaDetail? {
@@ -53,6 +56,19 @@ class MangaApiService {
         }
     }
 
+    suspend fun retrieveAllManga(): List<MangaDTO>? {
+        return withContext(Dispatchers.IO) {
+            try {
+                api.getAllManga()
+            } catch (e: IOException) {
+                Log.e("ApiCalls", "Network error when calling API", e)
+                null
+            } catch (e: Exception) {
+                Log.e("ApiCalls", "Unexpected error", e)
+                null
+            }
+        }
+    }
     suspend fun retrieveTopTenManga(): List<MangaDTO>? {
         return withContext(Dispatchers.IO) {
             try {

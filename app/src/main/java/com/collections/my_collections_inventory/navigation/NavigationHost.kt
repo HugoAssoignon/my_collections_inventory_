@@ -40,7 +40,7 @@ fun NavigationHost() {
             composable("manga") { MangaScreen() }
             composable("anime") { }
             composable("carte") { }
-            composable("home") { HomeScreen(navController) }
+            composable("home") { HomeScreen() }
             composable("collection") { CollectionScreen(navController) }
             composable("login") { LoginScreen(navController) }
             composable("newUser") { CreationNewUserScreen(navController) }
