@@ -56,7 +56,7 @@ fun NavigationHost() {
                 DescriptionScreen(idManga)
             }
             composable("newUser") { CreationNewUserScreen(navController) }
-            }
         }
     }
 }
+

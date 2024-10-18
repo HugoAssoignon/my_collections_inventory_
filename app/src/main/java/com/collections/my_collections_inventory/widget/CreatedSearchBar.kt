@@ -62,4 +62,4 @@ fun CreatedSearchBar(labelSearch: String) {
         }
     }
 }
-}
+
