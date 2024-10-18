@@ -50,9 +50,9 @@ fun MangaScreen(navController: NavController) {
                 .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item { Text("Univers Manga") }
+            item { Text("Manga Universe") }
             item {
-                CreatedSearchBar("Rechercher un manga")
+                CreatedSearchBar("Search Manga")
             }
 
             items(mangas.chunked(2)) { pairOfMangas ->

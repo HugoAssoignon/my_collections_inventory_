@@ -38,9 +38,9 @@ fun CollectionScreen(navController: NavController) {
                 .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item { Text("Ma collection") }
+            item { Text("My collection") }
             item {
-                CreatedSearchBar("Rechercher un manga")
+                CreatedSearchBar("Search manga")
             }
 
             items(mangas.chunked(2)) { pairOfMangas ->
