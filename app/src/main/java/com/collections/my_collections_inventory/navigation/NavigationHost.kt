@@ -24,10 +24,10 @@ import com.collections.my_collections_inventory.widget.BottomNavigationBar
 fun NavigationHost() {
     val navController = rememberNavController()
     var navigationSelectedItem by remember { mutableStateOf(1) }
-    val noBottomNavDestinations = listOf("login")
+    val noBottomNavDestinations = listOf("login", "newUser")
     Scaffold(
         bottomBar = {
-            if (navController.currentBackStackEntry?.destination?.route !in noBottomNavDestinations) {
+            if (navController.currentDestination?.route !in noBottomNavDestinations) {
                 BottomNavigationBar(navController, navigationSelectedItem) { index ->
                     navigationSelectedItem = index
                 }
@@ -45,12 +45,11 @@ fun NavigationHost() {
             composable("carte") { }
             composable("home") { HomeScreen(navController) }
             composable("collection") { CollectionScreen(navController) }
-            composable("login"){ LoginScreen(navController) }
+            composable("login") { LoginScreen(navController) }
             composable("description_screen/{idManga}") { backStackEntry ->
                 val idManga = backStackEntry.arguments?.getString("idManga")?.toInt() ?: 0
                 DescriptionScreen(idManga)
             }
-            composable("login") { LoginScreen(navController) }
             composable("newUser") { CreationNewUserScreen(navController) }
         }
     }

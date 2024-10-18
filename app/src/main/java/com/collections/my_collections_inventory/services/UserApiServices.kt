@@ -1,5 +1,6 @@
 package com.collections.my_collections_inventory.services
 
+import DataIp
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,7 +15,8 @@ import java.io.IOException
 
 
 class UserApiServices {
-    private var apiUrl: String = "http://192.168.208.125:8080/login"
+    private val dataIp = DataIp()
+    private var apiUrl: String = "http://${dataIp.getIp()}/login"
 
 
     suspend fun retrieveUserByUsernameAndPassword(type: String, username: String, password: String): String? {
@@ -60,7 +62,7 @@ class UserApiServices {
         val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
         val requestBody: RequestBody = jsonObject.toString().toRequestBody(mediaType)
         if(type=="add"){
-            apiUrl += "/add";
+            apiUrl += "/add"
         }
         val request = Request.Builder()
             .url(apiUrl)

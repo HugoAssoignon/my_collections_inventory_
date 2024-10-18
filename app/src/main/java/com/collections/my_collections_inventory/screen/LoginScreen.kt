@@ -1,7 +1,4 @@
 package com.collections.my_collections_inventory.screen
-
-import PasswordBox
-import UsernameBox
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +12,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,10 +24,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.collections.my_collections_inventory.services.UserApiServices
+import com.collections.my_collections_inventory.widget.PasswordBox
+import com.collections.my_collections_inventory.widget.UsernameBox
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -61,7 +64,7 @@ fun LoginScreen(navController: NavController) {
                 onClick = {
                     val type = "login"
                     Toast.makeText(context, "Attempting to login", Toast.LENGTH_SHORT).show()
-                    val userApiService = UserApiServices();
+                    val userApiService = UserApiServices()
                     coroutineScope.launch {
                         try {
                             user = userApiService.retrieveUserByUsernameAndPassword(type,username, password)
