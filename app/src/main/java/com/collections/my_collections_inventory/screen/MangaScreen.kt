@@ -1,5 +1,7 @@
 package com.collections.my_collections_inventory.screen
 
+import MangaApiService
+import MangaDTO
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -11,25 +13,35 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.collections.my_collections_inventory.widget.CreatedSearchBar
 import com.collections.my_collections_inventory.widget.DisplayBox
+import kotlinx.coroutines.launch
 
 @Composable
 fun MangaScreen() {
-    //remplir mangas avec l'appel api
-    val mangas = listOf(
-        "SoloLeveling" to "https://fr.web.img5.acsta.net/pictures/23/09/11/09/25/4087505.jpg",
-        "Naruto" to "https://fr.web.img5.acsta.net/pictures/23/09/11/09/25/4087505.jpg",
-        "Attack on Titan" to "https://fr.web.img5.acsta.net/pictures/23/09/11/09/25/4087505.jpg",
-        "One Piece" to "https://fr.web.img5.acsta.net/pictures/23/09/11/09/25/4087505.jpg"
-    )
+    val mangaApiService = remember { MangaApiService() }
+    var mangas by remember { mutableStateOf<List<MangaDTO>>(emptyList()) }
+    val coroutineScope = rememberCoroutineScope()
 
-    Scaffold(modifier =
-    Modifier.fillMaxSize(), content = { padding ->
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            val fetchedMangas = mangaApiService.retrieveAllManga()
+            if (fetchedMangas != null) {
+                mangas = fetchedMangas
+            }
+        }
+    }
+    Scaffold(modifier = Modifier.fillMaxSize(), content = { padding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -50,9 +62,9 @@ fun MangaScreen() {
                         .wrapContentHeight()
                         .padding(top = 10.dp)
                 ) {
-                    for ((title, imageUrl) in pairOfMangas) {
+                    pairOfMangas.forEach { manga ->
                         DisplayBox(
-                            1, title, imageUrl
+                            manga.id, manga.title, manga.imageUrl
                         )
                     }
                 }
