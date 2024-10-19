@@ -37,11 +37,8 @@ class UserApiServices {
                 val response: Response = client.newCall(request).execute()
 
                 if (response.isSuccessful) {
-                    val responseBody = response.body?.string()
-                    Log.d("ApiCalls", "API response successful: $responseBody")
-
-                    val jsonObject = responseBody?.let { JSONObject(it) }
-                    val userId = jsonObject?.getString("user_id")
+                    val userId = response.body?.string()
+                    Log.d("ApiCalls", "API response successful: user created")
 
                     val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                     with(sharedPref.edit()) {

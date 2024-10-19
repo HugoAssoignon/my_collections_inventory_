@@ -1,7 +1,11 @@
 package com.collections.my_collections_inventory.screen
 
+import CollectionApiService
+import CollectionDTO
 import MangaApiService
 import MangaDTO
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,9 +44,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun DescriptionScreen(idManga: Int) {
+    val context = LocalContext.current
     val mangaApiService = remember { MangaApiService() }
+    val collectionApiService = remember { CollectionApiService() }
     var manga by remember { mutableStateOf<MangaDTO?>(null) }
     val coroutineScope = rememberCoroutineScope()
+    val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val userId = sharedPref.getString("USER_ID", null)
 
 
     LaunchedEffect(Unit) {
@@ -114,7 +123,18 @@ fun DescriptionScreen(idManga: Int) {
                     }
                 }
                 Button(
-                    onClick = { },
+                    onClick = {
+                        coroutineScope.launch {
+                            collectionApiService.addMangaToUser(
+                                CollectionDTO(userId, manga?.id)
+                            )
+                        }
+                        Toast.makeText(
+                            context,
+                            "Added to your collection",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
                     colors = ButtonDefaults.buttonColors(Color(0xFFD4F4DD)),
                     modifier = Modifier
                         .width(200.dp)

@@ -1,6 +1,6 @@
 data class CollectionDTO(
-    val idUser: Int,
-    val idManga: Int,
+    val idUser: String?,
+    val idManga: Int?,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -14,7 +14,7 @@ data class CollectionDTO(
     }
 
     override fun hashCode(): Int {
-        var result = idUser
-        return result
+        val result = idManga
+        return result!!
     }
 }
