@@ -36,7 +36,8 @@ fun CollectionScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            val fetchedMangas = collectionApiService.retrieveAllMyCollection()
+            //TODO in future get id of the user
+            val fetchedMangas = collectionApiService.retrieveAllMyCollection(1)
             if (fetchedMangas != null) {
                 mangas = fetchedMangas
             }

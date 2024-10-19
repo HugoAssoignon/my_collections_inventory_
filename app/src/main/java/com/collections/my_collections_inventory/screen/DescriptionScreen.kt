@@ -1,5 +1,6 @@
 package com.collections.my_collections_inventory.screen
 
+import CollectionApiService
 import MangaApiService
 import MangaDTO
 import androidx.compose.foundation.Image
@@ -41,6 +42,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun DescriptionScreen(idManga: Int) {
     val mangaApiService = remember { MangaApiService() }
+    val collectionApiService = remember { CollectionApiService() }
     var manga by remember { mutableStateOf<MangaDTO?>(null) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -59,7 +61,8 @@ fun DescriptionScreen(idManga: Int) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color(0xFF647AA3))
-                .padding(padding), contentAlignment = Alignment.Center
+                .padding(padding),
+            contentAlignment = Alignment.Center
         ) {
 
             Column(
@@ -117,7 +120,13 @@ fun DescriptionScreen(idManga: Int) {
                     }
                 }
                 Button(
-                    onClick = { },
+                    onClick = {
+                        manga?.let {
+                            coroutineScope.launch {
+                                collectionApiService.addCollection(it)
+                            }
+                        }
+                    },
                     colors = ButtonDefaults.buttonColors(Color(0xFFD4F4DD)),
                     modifier = Modifier
                         .width(200.dp)
