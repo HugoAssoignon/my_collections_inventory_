@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -76,7 +75,6 @@ fun DescriptionScreen(idManga: Int) {
                 Image(
                     painter = rememberAsyncImagePainter(model = manga?.imageUrl),
                     contentDescription = null,
-                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .width(250.dp)
                         .height(160.dp)
@@ -91,13 +89,12 @@ fun DescriptionScreen(idManga: Int) {
                 }
 
                 val detailsTitles =
-                    listOf("Authors:", "Status:", "Number of Books:", "Description:", "Categories:")
+                    listOf("Authors:", "Status:", "Description:", "Categories:")
                 val detailsValues = listOf(
-                    manga?.authors ?: "N/A",
+                    manga?.author ?: "N/A",
                     manga?.status ?: "N/A",
-                    manga?.nbBooks.toString(),
                     manga?.description ?: "N/A",
-                    manga?.categories ?: "N/A"
+                    manga?.category ?: "N/A"
                 )
 
                 LazyColumn(

@@ -1,5 +1,6 @@
 package com.collections.my_collections_inventory.screen
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -68,25 +69,16 @@ fun LoginScreen(navController: NavController) {
                     val userApiService = UserApiServices()
                     coroutineScope.launch {
                         try {
-                            user = userApiService.retrieveUserByUsernameAndPassword(type,username, password)
+                            user = userApiService.retrieveUserByUsernameAndPassword(context, type, username, password)
                             if (user != null) {
-                                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
                                 navController.navigate("home")
                             } else {
-                                Toast.makeText(
-                                    context,
-                                    "User not found. Try again.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(context, "User not found. Try again.", Toast.LENGTH_SHORT).show()
                                 navController.navigate("login")
                             }
                         } catch (e: Exception) {
-                            Toast.makeText(
-                                context,
-                                "Error during login: ${e.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(context, "Error during login: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 },
