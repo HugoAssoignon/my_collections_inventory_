@@ -67,7 +67,7 @@ fun CreationNewUserScreen(navController: NavController) {
                     val userApiService = UserApiServices()
                     coroutineScope.launch {
                         try {
-                            user = userApiService.retrieveUserByUsernameAndPassword(type,username, password)
+                            user = userApiService.retrieveUserByUsernameAndPassword(context, type, username, password)
                             if (user != null) {
                                 Toast.makeText(context, "creation user successful", Toast.LENGTH_SHORT)
                                     .show()
