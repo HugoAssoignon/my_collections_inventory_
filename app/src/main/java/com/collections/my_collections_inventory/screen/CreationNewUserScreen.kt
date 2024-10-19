@@ -1,7 +1,5 @@
 package com.collections.my_collections_inventory.screen
 
-import PasswordBox
-import UsernameBox
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.collections.my_collections_inventory.services.UserApiServices
+import com.collections.my_collections_inventory.widget.PasswordBox
+import com.collections.my_collections_inventory.widget.UsernameBox
 import kotlinx.coroutines.launch
 
 @Composable
@@ -64,7 +64,7 @@ fun CreationNewUserScreen(navController: NavController) {
                 onClick = {
                     val type = "add"
                     Toast.makeText(context, "Attempting to create user", Toast.LENGTH_SHORT).show()
-                    val userApiService = UserApiServices();
+                    val userApiService = UserApiServices()
                     coroutineScope.launch {
                         try {
                             user = userApiService.retrieveUserByUsernameAndPassword(type,username, password)
