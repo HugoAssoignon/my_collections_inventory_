@@ -1,29 +1,27 @@
+package com.collections.my_collections_inventory.services
+
 import DataIp
 import android.content.Context
 import android.util.Log
 import com.collections.my_collections_inventory.data_class.LoginRequest
-import com.collections.my_collections_inventory.data_class.LoginResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
-
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface UserApiCalls {
-    @POST("/login")
-    suspend fun loginUser(@Body request: LoginRequest): LoginResponse
+    @POST("login")
+    suspend fun loginUser(@Body request: LoginRequest): String
 
-    @POST("/login/add")
-    suspend fun createUser(@Body request: LoginRequest): LoginResponse
+    @POST("login/add")
+    suspend fun createUser(@Body request: LoginRequest): String
 }
-
-
-
 
 class UserApiServices {
     private val dataIp = DataIp()
@@ -45,9 +43,8 @@ class UserApiServices {
             .create(UserApiCalls::class.java)
     }
 
-    suspend fun retrieveUserByUsernameAndPassword(
+    suspend fun loginUser(
         context: Context,
-        type: String,
         username: String,
         password: String
     ): String? {
@@ -59,24 +56,55 @@ class UserApiServices {
 
         return withContext(Dispatchers.IO) {
             try {
-                val response = if (type == "login") {
-                    api.loginUser(request)
-                } else {
-                    api.createUser(request)
-                }
+                val response = api.loginUser(request)
 
-                if (response.userId != null) {
+                response?.let { id->
                     val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                     with(sharedPref.edit()) {
-                        putString("USER_ID", response.user_id)
+                        putString("USER_ID", id)
                         apply()
                     }
-                    Log.d("ApiCalls", "API response successful: ${response.user_id}")
-                    return@withContext response.user_id
-                } else {
-                    Log.d("ApiCalls", "Error in API response:")
-                    return@withContext null
+                    Log.d("ApiCalls", "API response successful: $id")
+                    return@withContext id
                 }
+                Log.d("ApiCalls", "Error in API response")
+                return@withContext null
+            } catch (e: IOException) {
+                Log.e("ApiCalls", "Network error when calling API", e)
+                return@withContext null
+            } catch (e: Exception) {
+                Log.e("ApiCalls", "Unexpected error when calling API", e)
+                return@withContext null
+            }
+        }
+    }
+
+    suspend fun createUser(
+        context: Context,
+        username: String,
+        password: String
+    ): String? {
+        if (username.isBlank() || password.isBlank()) {
+            Log.d("ApiCalls", "Username or password is empty or null.")
+            return null
+        }
+        val request = LoginRequest(username, password)
+
+        return withContext(Dispatchers.IO) {
+            try {
+                val responseString = api.createUser(request)
+
+                responseString?.let { id->
+                    val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                    with(sharedPref.edit()) {
+                        putString("USER_ID", id)
+                        apply()
+                    }
+                    Log.d("ApiCalls", "API response successful: $id")
+                    return@withContext id
+                }
+                Log.d("ApiCalls", "Error in API response")
+                return@withContext null
             } catch (e: IOException) {
                 Log.e("ApiCalls", "Network error when calling API", e)
                 return@withContext null
