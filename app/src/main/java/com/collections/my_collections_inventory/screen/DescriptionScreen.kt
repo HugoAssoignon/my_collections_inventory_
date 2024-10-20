@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -78,12 +79,13 @@ fun DescriptionScreen(idManga: Int) {
                     .background(Color(0xFF334195))
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(32.dp)
+                verticalArrangement = Arrangement.spacedBy(25.dp)
             ) {
 
                 Image(
                     painter = rememberAsyncImagePainter(model = manga?.imageUrl),
                     contentDescription = null,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .width(250.dp)
                         .height(160.dp)
@@ -141,6 +143,26 @@ fun DescriptionScreen(idManga: Int) {
                         .height(35.dp)
                 ) {
                     Text("Add to my collection", color = Color.Black)
+                }
+                Button(
+                    onClick = {
+                        coroutineScope.launch {
+                            collectionApiService.removeMangaToUser(
+                                CollectionDTO(userId, manga?.id)
+                            )
+                        }
+                        Toast.makeText(
+                            context,
+                            "removed from your collection",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
+                    colors = ButtonDefaults.buttonColors(Color(0xFFD4F4DD)),
+                    modifier = Modifier
+                        .width(220.dp)
+                        .height(35.dp)
+                ) {
+                    Text("Remove from my collection", color = Color.Black)
                 }
             }
         }
