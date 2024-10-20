@@ -17,6 +17,9 @@ interface CollectionApiCalls {
 
     @POST("add")
     suspend fun addMangaToUser(@Body collection: CollectionDTO)
+
+    @POST("delete")
+    suspend fun removeMangaToUser(@Body collection: CollectionDTO)
 }
 
 class CollectionApiService {
@@ -57,6 +60,20 @@ class CollectionApiService {
         return withContext(Dispatchers.IO) {
             try {
                 api.addMangaToUser(collection)
+            } catch (e: IOException) {
+                Log.e("ApiCalls", "Network error when calling API", e)
+                null
+            } catch (e: Exception) {
+                Log.e("ApiCalls", "Unexpected error", e)
+                null
+            }
+        }
+    }
+
+    suspend fun removeMangaToUser(collection: CollectionDTO): Unit? {
+        return withContext(Dispatchers.IO) {
+            try {
+                api.removeMangaToUser(collection)
             } catch (e: IOException) {
                 Log.e("ApiCalls", "Network error when calling API", e)
                 null

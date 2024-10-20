@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -58,7 +57,14 @@ fun CollectionScreen(navController: NavController) {
                 .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item { Text("My collection") }
+            item {
+                Text(
+                    text = "My Collection",
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .background(Color.LightGray)
+                )
+            }
             item {
                 CreatedSearchBar("Search manga")
             }

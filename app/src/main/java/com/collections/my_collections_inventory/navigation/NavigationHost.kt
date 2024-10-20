@@ -1,10 +1,13 @@
 package com.collections.my_collections_inventory.navigation
 
+import DisconnectionButton
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -22,10 +25,11 @@ import com.collections.my_collections_inventory.screen.MangaScreen
 import com.collections.my_collections_inventory.screen.MenuScreen
 import com.collections.my_collections_inventory.widget.BottomNavigationBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationHost() {
     val navController = rememberNavController()
-    var navigationSelectedItem by remember { mutableStateOf(1) }
+    var navigationSelectedItem by remember { mutableIntStateOf(1) }
     var currentRoute by remember { mutableStateOf("login") }
     val noBottomNavDestinations = listOf("login", "newUser")
 
@@ -46,7 +50,12 @@ fun NavigationHost() {
                     navigationSelectedItem = index
                 }
             }
-        }
+        },
+        topBar = {
+            if (currentRoute !in noBottomNavDestinations) {
+                DisconnectionButton(navController)
+            }
+        },
     ) { paddingValues ->
         NavHost(
             navController = navController,
