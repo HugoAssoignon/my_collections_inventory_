@@ -3,11 +3,13 @@ package com.collections.my_collections_inventory.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,10 +26,22 @@ import com.collections.my_collections_inventory.widget.BottomNavigationBar
 fun NavigationHost() {
     val navController = rememberNavController()
     var navigationSelectedItem by remember { mutableStateOf(1) }
+    var currentRoute by remember { mutableStateOf("login") }
     val noBottomNavDestinations = listOf("login", "newUser")
+
+    DisposableEffect(navController) {
+        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+            currentRoute = destination.route ?: "login"
+        }
+        navController.addOnDestinationChangedListener(listener)
+        onDispose {
+            navController.removeOnDestinationChangedListener(listener)
+        }
+    }
+
     Scaffold(
         bottomBar = {
-            if (navController.currentDestination?.route !in noBottomNavDestinations) {
+            if (currentRoute !in noBottomNavDestinations) {
                 BottomNavigationBar(navController, navigationSelectedItem) { index ->
                     navigationSelectedItem = index
                 }
@@ -41,22 +55,14 @@ fun NavigationHost() {
         ) {
             composable("menu") { MenuScreen(navController) }
             composable("manga") { MangaScreen(navController) }
-            composable("anime") { }
-            composable("carte") { }
             composable("home") { HomeScreen(navController) }
             composable("collection") { CollectionScreen(navController) }
             composable("login") { LoginScreen(navController) }
-            composable("description_screen/{idManga}") { backStackEntry ->
-                val idManga = backStackEntry.arguments?.getString("idManga")?.toInt() ?: 0
-                DescriptionScreen(idManga)
-            }
-            composable("login") { LoginScreen(navController) }
-            composable("description_screen/{idManga}") { backStackEntry ->
-                val idManga = backStackEntry.arguments?.getString("idManga")?.toInt() ?: 0
-                DescriptionScreen(idManga)
-            }
             composable("newUser") { CreationNewUserScreen(navController) }
+            composable("description_screen/{idManga}") { backStackEntry ->
+                val idManga = backStackEntry.arguments?.getString("idManga")?.toInt() ?: 0
+                DescriptionScreen(idManga)
+            }
         }
     }
 }
-
