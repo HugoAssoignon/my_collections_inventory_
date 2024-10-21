@@ -16,10 +16,10 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface UserApiCalls {
-    @POST("login")
+    @POST("/login")
     suspend fun loginUser(@Body request: LoginRequest): String
 
-    @POST("login/add")
+    @POST("/login/add")
     suspend fun createUser(@Body request: LoginRequest): String
 }
 
@@ -43,7 +43,8 @@ class UserApiServices {
             .create(UserApiCalls::class.java)
     }
 
-    suspend fun loginUser(
+    suspend fun loginOrCreateUser(
+        type: String,
         context: Context,
         username: String,
         password: String
@@ -56,52 +57,22 @@ class UserApiServices {
 
         return withContext(Dispatchers.IO) {
             try {
-                val response = api.loginUser(request)
-
-                response?.let { id->
-                    val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-                    with(sharedPref.edit()) {
-                        putString("USER_ID", id)
-                        apply()
-                    }
-                    Log.d("ApiCalls", "API response successful: $id")
-                    return@withContext id
+                var response: String? = null;
+                if (type == "login") {
+                    response = api.loginUser(request)
+                } else {
+                    response = api.createUser(request)
                 }
-                Log.d("ApiCalls", "Error in API response")
-                return@withContext null
-            } catch (e: IOException) {
-                Log.e("ApiCalls", "Network error when calling API", e)
-                return@withContext null
-            } catch (e: Exception) {
-                Log.e("ApiCalls", "Unexpected error when calling API", e)
-                return@withContext null
-            }
-        }
-    }
 
-    suspend fun createUser(
-        context: Context,
-        username: String,
-        password: String
-    ): String? {
-        if (username.isBlank() || password.isBlank()) {
-            Log.d("ApiCalls", "Username or password is empty or null.")
-            return null
-        }
-        val request = LoginRequest(username, password)
 
-        return withContext(Dispatchers.IO) {
-            try {
-                val responseString = api.createUser(request)
-
-                responseString?.let { id->
+                response.let { userId ->
                     val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                     with(sharedPref.edit()) {
-                        putString("USER_ID", id)
+                        putString("USER_ID", userId)
                         apply()
                     }
-                    Log.d("ApiCalls", "API response successful: $id")
-                    return@withContext id
+                    Log.d("ApiCalls", "API response successful: $userId")
+                    return@withContext userId
                 }
                 Log.d("ApiCalls", "Error in API response")
                 return@withContext null

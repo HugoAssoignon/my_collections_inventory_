@@ -64,9 +64,10 @@ fun CreationNewUserScreen(navController: NavController) {
                 onClick = {
                     Toast.makeText(context, "Attempting to create user", Toast.LENGTH_SHORT).show()
                     val userApiService = UserApiServices()
+                    val type = "add"
                     coroutineScope.launch {
                         try {
-                            user = userApiService.createUser(context, username, password)
+                            user = userApiService.loginOrCreateUser(type,context, username, password)
                             if (user != null) {
                                 Toast.makeText(context, "User creation successful", Toast.LENGTH_SHORT).show()
                                 navController.navigate("home")

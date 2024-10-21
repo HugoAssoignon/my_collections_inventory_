@@ -65,9 +65,10 @@ fun LoginScreen(navController: NavController) {
                 onClick = {
                     Toast.makeText(context, "Attempting to login", Toast.LENGTH_SHORT).show()
                     val userApiService = UserApiServices()
+                    val type="login"
                     coroutineScope.launch {
                         try {
-                            user = userApiService.loginUser(context, username, password)
+                            user = userApiService.loginOrCreateUser(type,context, username, password)
                             if (user != null) {
                                 Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
                                 navController.navigate("home")
