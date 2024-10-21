@@ -62,34 +62,23 @@ fun CreationNewUserScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {
-                    val type = "add"
                     Toast.makeText(context, "Attempting to create user", Toast.LENGTH_SHORT).show()
                     val userApiService = UserApiServices()
+                    val type = "add"
                     coroutineScope.launch {
                         try {
-                            user = userApiService.retrieveUserByUsernameAndPassword(context, type, username, password)
+                            user = userApiService.loginOrCreateUser(type,context, username, password)
                             if (user != null) {
-                                Toast.makeText(context, "creation user successful", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(context, "User creation successful", Toast.LENGTH_SHORT).show()
                                 navController.navigate("home")
                             } else {
-                                Toast.makeText(
-                                    context,
-                                    "Creation new user failed. Try again.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                navController.navigate("login")
+                                Toast.makeText(context, "Creation of new user failed. Try again.", Toast.LENGTH_SHORT).show()
                             }
                         } catch (e: Exception) {
-                            Toast.makeText(
-                                context,
-                                "Error during login: ${e.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(context, "Error during creation: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 },
-
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Blue,
                     contentColor = Color.White
@@ -100,7 +89,6 @@ fun CreationNewUserScreen(navController: NavController) {
             ) {
                 Text("Create user")
             }
-
         }
     }
 }

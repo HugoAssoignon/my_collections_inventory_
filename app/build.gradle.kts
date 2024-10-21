@@ -50,10 +50,9 @@ android {
 }
 
 dependencies {
-    //noinspection UseTomlInstead
-    implementation ("androidx.compose.material:material-icons-extended:1.7.4")
-    implementation ("androidx.navigation:navigation-compose:2.8.3")
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.navigation.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -73,28 +72,18 @@ dependencies {
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
-    implementation("androidx.compose.material3:material3") // Material Design
-    implementation("com.google.android.material:material:1.12.0")
+    implementation(libs.material3)
+    implementation(libs.material)
 
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation(libs.ui.tooling.preview)
+    debugImplementation(libs.ui.tooling)
 
-    implementation("androidx.activity:activity-compose:1.9.3")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation(libs.androidx.activity.compose.v182)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation (libs.logging.interceptor)
+    implementation(libs.coil.compose)
 
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("androidx.activity:activity-compose:1.9.3")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
-
-    implementation("androidx.activity:activity-compose:1.9.3")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
 }

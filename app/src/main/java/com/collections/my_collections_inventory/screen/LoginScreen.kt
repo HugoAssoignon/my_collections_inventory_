@@ -1,5 +1,6 @@
 package com.collections.my_collections_inventory.screen
 
+
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,7 +31,6 @@ import androidx.navigation.NavController
 import com.collections.my_collections_inventory.services.UserApiServices
 import com.collections.my_collections_inventory.widget.UsernameBox
 import kotlinx.coroutines.launch
-
 
 @Composable
 fun LoginScreen(navController: NavController) {
@@ -63,25 +63,23 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(24.dp))
             Button(
                 onClick = {
-                    val type = "login"
                     Toast.makeText(context, "Attempting to login", Toast.LENGTH_SHORT).show()
                     val userApiService = UserApiServices()
+                    val type="login"
                     coroutineScope.launch {
                         try {
-                            user = userApiService.retrieveUserByUsernameAndPassword(context, type, username, password)
+                            user = userApiService.loginOrCreateUser(type,context, username, password)
                             if (user != null) {
                                 Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
                                 navController.navigate("home")
                             } else {
                                 Toast.makeText(context, "User not found. Try again.", Toast.LENGTH_SHORT).show()
-                                navController.navigate("login")
                             }
                         } catch (e: Exception) {
                             Toast.makeText(context, "Error during login: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 },
-
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Blue,
                     contentColor = Color.White
