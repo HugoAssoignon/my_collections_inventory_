@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,19 +25,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.collections.my_collections_inventory.services.UserApiServices
+import com.collections.my_collections_inventory.view_models.UserViewModel
 import com.collections.my_collections_inventory.widget.PasswordBox
 import com.collections.my_collections_inventory.widget.UsernameBox
-import kotlinx.coroutines.launch
 
 @Composable
-fun CreationNewUserScreen(navController: NavController) {
+fun CreationNewUserScreen(navController: NavController, userViewModel: UserViewModel) {
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var user by remember { mutableStateOf<String?>(null) }
+    val user = userViewModel.userId
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
@@ -63,12 +60,10 @@ fun CreationNewUserScreen(navController: NavController) {
             Button(
                 onClick = {
                     Toast.makeText(context, "Attempting to create user", Toast.LENGTH_SHORT).show()
-                    val userApiService = UserApiServices()
                     val type = "add"
-                    coroutineScope.launch {
                         try {
-                            user = userApiService.loginOrCreateUser(type,context, username, password)
-                            if (user != null) {
+                            userViewModel.loginOrCreateUser(type, context, username, password)
+                            if (!user.equals("0")) {
                                 Toast.makeText(context, "User creation successful", Toast.LENGTH_SHORT).show()
                                 navController.navigate("home")
                             } else {
@@ -77,7 +72,6 @@ fun CreationNewUserScreen(navController: NavController) {
                         } catch (e: Exception) {
                             Toast.makeText(context, "Error during creation: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
-                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Blue,
