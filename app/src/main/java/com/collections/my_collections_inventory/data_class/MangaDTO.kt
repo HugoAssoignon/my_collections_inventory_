@@ -1,11 +1,11 @@
 data class MangaDTO(
-    val id: Int,
-    val title: String,
-    val imageUrl: String,
-    val author: String,
-    val status: String,
-    val description: String,
-    val category: String,
+    val id: Int = 0,
+    val title: String = "",
+    val imageUrl: String = "",
+    val author: String = "",
+    val status: String = "",
+    val description: String = "",
+    val category: String = "",
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

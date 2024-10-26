@@ -14,10 +14,15 @@ In order to use the project, you will need to launch the built api, download it 
 
 ### Requirements: 
  - Java 21
- - Load maven project( mvn clean install in cmd)
+- Load maven project (mvn clean install in cmd)
  - launch main in MyCollectionInventoryApplication.java
    
 ## Difficulties
 
-As the api is local and kotlin blocks http calls (not https so not secured), we needed a specific setup to call the api, that's why, you need to modify 2 files in the mobile app project (DataIp.kt, network-security-config.xml).
-With this setup, using wifi is prohibited, it will block the api requests, and so you need to use your phone connexion.
+As the api is local and kotlin blocks http calls (not https so not secured),
+we needed a specific setup to call the api, that's why, you need to modify 2 files in the mobile app
+project:
+
+- DataIp.kt
+- network-security-config.xml
+  _search for "YOUR_IP_ADDRESS" in the project_
