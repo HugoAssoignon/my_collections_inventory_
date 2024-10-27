@@ -1,7 +1,5 @@
 package com.collections.my_collections_inventory.screen
 
-import MangaApiService
-import MangaDTO
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,33 +13,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.collections.my_collections_inventory.view_models.MangaViewModel
 import com.collections.my_collections_inventory.widget.CreatedSearchBar
 import com.collections.my_collections_inventory.widget.DisplayBox
-import kotlinx.coroutines.launch
 
 @Composable
-fun MangaScreen(navController: NavController) {
-    val mangaApiService = remember { MangaApiService() }
-    var mangas by remember { mutableStateOf<List<MangaDTO>>(emptyList()) }
-    val coroutineScope = rememberCoroutineScope()
+fun MangaScreen(navController: NavController, mangaViewModel: MangaViewModel) {
+    val mangas by mangaViewModel.mangas
 
     LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            val fetchedMangas = mangaApiService.retrieveAllManga()
-            if (fetchedMangas != null) {
-                mangas = fetchedMangas
-            }
-        }
+        mangaViewModel.retrieveAllManga()
     }
+
     Scaffold(modifier = Modifier.fillMaxSize(), content = { padding ->
         LazyColumn(
             modifier = Modifier

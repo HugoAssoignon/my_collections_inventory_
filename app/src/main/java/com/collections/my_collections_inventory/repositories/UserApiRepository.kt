@@ -1,47 +1,14 @@
-package com.collections.my_collections_inventory.services
+package com.collections.my_collections_inventory.repositories
 
-import DataIp
 import android.content.Context
 import android.util.Log
 import com.collections.my_collections_inventory.data_class.LoginRequest
+import com.collections.my_collections_inventory.services.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONObject
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
-import retrofit2.http.Body
-import retrofit2.http.POST
 
-interface UserApiCalls {
-    @POST("/login")
-    suspend fun loginUser(@Body request: LoginRequest): String
-
-    @POST("/login/add")
-    suspend fun createUser(@Body request: LoginRequest): String
-}
-
-class UserApiServices {
-    private val dataIp = DataIp()
-    private val apiUrl: String = "http://${dataIp.getIp()}/"
-
-    private val api: UserApiCalls by lazy {
-        val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
-
-        Retrofit.Builder()
-            .baseUrl(apiUrl)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(UserApiCalls::class.java)
-    }
+class UserApiRepository {
 
     suspend fun loginOrCreateUser(
         type: String,
@@ -57,11 +24,10 @@ class UserApiServices {
 
         return withContext(Dispatchers.IO) {
             try {
-                var response: String? = null;
-                if (type == "login") {
-                    response = api.loginUser(request)
+                val response: String = if (type == "login") {
+                    RetrofitInstance.userApiService.loginUser(request)
                 } else {
-                    response = api.createUser(request)
+                    RetrofitInstance.userApiService.createUser(request)
                 }
 
 
@@ -74,8 +40,6 @@ class UserApiServices {
                     Log.d("ApiCalls", "API response successful: $userId")
                     return@withContext userId
                 }
-                Log.d("ApiCalls", "Error in API response")
-                return@withContext null
             } catch (e: IOException) {
                 Log.e("ApiCalls", "Network error when calling API", e)
                 return@withContext null

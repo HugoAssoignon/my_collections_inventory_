@@ -1,9 +1,6 @@
 package com.collections.my_collections_inventory.screen
 
-import CollectionApiService
 import CollectionDTO
-import MangaApiService
-import MangaDTO
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -25,10 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,27 +33,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import kotlinx.coroutines.launch
+import com.collections.my_collections_inventory.view_models.CollectionViewModel
+import com.collections.my_collections_inventory.view_models.MangaViewModel
 
 
 @Composable
-fun DescriptionScreen(idManga: Int) {
+fun DescriptionScreen(
+    idManga: Int,
+    collectionViewModel: CollectionViewModel,
+    mangaViewModel: MangaViewModel
+) {
     val context = LocalContext.current
-    val mangaApiService = remember { MangaApiService() }
-    val collectionApiService = remember { CollectionApiService() }
-    var manga by remember { mutableStateOf<MangaDTO?>(null) }
-    val coroutineScope = rememberCoroutineScope()
+    val manga by mangaViewModel.manga
     val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val userId = sharedPref.getString("USER_ID", null)
 
 
     LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            val fetchedManga = mangaApiService.retrieveMangaById(idManga)
-            if (fetchedManga != null) {
-                manga = fetchedManga
-            }
-        }
+        mangaViewModel.retrieveMangaById(idManga)
     }
 
     Scaffold(modifier = Modifier.fillMaxSize(), content = { padding ->
@@ -83,7 +73,7 @@ fun DescriptionScreen(idManga: Int) {
             ) {
 
                 Image(
-                    painter = rememberAsyncImagePainter(model = manga?.imageUrl),
+                    painter = rememberAsyncImagePainter(model = manga.imageUrl),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -91,7 +81,7 @@ fun DescriptionScreen(idManga: Int) {
                         .height(160.dp)
                         .clip(RoundedCornerShape(10.dp))
                 )
-                manga?.let {
+                manga.let {
                     Text(
                         it.title, color = Color.White, style = TextStyle(
                             fontSize = 20.sp, fontWeight = FontWeight.Bold
@@ -102,10 +92,10 @@ fun DescriptionScreen(idManga: Int) {
                 val detailsTitles =
                     listOf("Authors:", "Status:", "Description:", "Categories:")
                 val detailsValues = listOf(
-                    manga?.author ?: "N/A",
-                    manga?.status ?: "N/A",
-                    manga?.description ?: "N/A",
-                    manga?.category ?: "N/A"
+                    manga.author,
+                    manga.status,
+                    manga.description,
+                    manga.category
                 )
 
                 LazyColumn(
@@ -126,11 +116,9 @@ fun DescriptionScreen(idManga: Int) {
                 }
                 Button(
                     onClick = {
-                        coroutineScope.launch {
-                            collectionApiService.addMangaToUser(
-                                CollectionDTO(userId, manga?.id)
-                            )
-                        }
+                        collectionViewModel.addMangaToUser(
+                            CollectionDTO(userId, manga.id)
+                        )
                         Toast.makeText(
                             context,
                             "Added to your collection",
@@ -146,11 +134,9 @@ fun DescriptionScreen(idManga: Int) {
                 }
                 Button(
                     onClick = {
-                        coroutineScope.launch {
-                            collectionApiService.removeMangaToUser(
-                                CollectionDTO(userId, manga?.id)
-                            )
-                        }
+                        collectionViewModel.removeMangaToUser(
+                            CollectionDTO(userId, manga.id)
+                        )
                         Toast.makeText(
                             context,
                             "removed from your collection",

@@ -1,7 +1,5 @@
 package com.collections.my_collections_inventory.screen
 
-import CollectionApiService
-import MangaDTO
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,36 +14,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.collections.my_collections_inventory.view_models.CollectionViewModel
 import com.collections.my_collections_inventory.widget.CreatedSearchBar
 import com.collections.my_collections_inventory.widget.DisplayBox
-import kotlinx.coroutines.launch
 
 @Composable
-fun CollectionScreen(navController: NavController) {
+fun CollectionScreen(navController: NavController, collectionViewModel: CollectionViewModel) {
     val context = LocalContext.current
-    val collectionApiService = remember { CollectionApiService() }
-    var mangas by remember { mutableStateOf<List<MangaDTO>>(emptyList()) }
-    val coroutineScope = rememberCoroutineScope()
+    val mangas by collectionViewModel.mangas
     val sharedPref = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     val userId = sharedPref.getString("USER_ID", null)
 
     LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            val fetchedManga = collectionApiService.retrieveUserCollection(userId)
-            if (fetchedManga != null) {
-                mangas = fetchedManga
-            }
-        }
+        collectionViewModel.fetchUserCollection(userId)
     }
 
     Scaffold(modifier =
