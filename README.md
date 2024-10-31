@@ -14,8 +14,9 @@ In order to use the project, you will need to launch the built api, download it 
 
 ### Requirements: 
  - Java 21
-- Load maven project (mvn clean install in cmd)
+ - Load maven project (mvn clean install in cmd)
  - launch main in MyCollectionInventoryApplication.java
+ - Call on [http://localhost:8080/externalManga/load-manga](http://localhost:8080/externalManga/load-manga) to add manga into your database.
    
 ## Difficulties
 
@@ -25,4 +26,4 @@ project:
 
 - DataIp.kt
 - network-security-config.xml
-  _search for "YOUR_IP_ADDRESS" in the project_
+_search for "YOUR_IP_ADDRESS" in the project_
