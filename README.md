@@ -16,7 +16,7 @@ In order to use the project, you will need to launch the built api, download it 
  - Java 21
  - Load maven project (mvn clean install in cmd)
  - launch main in MyCollectionInventoryApplication.java
- - Call on [http://localhost:8080/externalManga/load-manga](http://localhost:8080/externalManga/load-manga) to add manga into your database.
+ - Call on [http://localhost:8080/externalManga/load-manga](http://localhost:8080/externalManga/load-manga) (GET) to add manga into your database.
    
 ## Difficulties
 
